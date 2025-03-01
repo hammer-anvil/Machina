@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Arguments that can be passed to this launch file -->
+  <arg name="calibration_data_dir" default="/ros2_ws/src/machina_metrology_task/data/calibration/"/>
+  <arg name="pcd_data_dir" default="/ros2_ws/src/machina_metrology_task/data/pcd/"/>
+  <arg name="output_file_path" default="/ros2_ws/src/machina_metrology_task/output/"/>
+  <arg name="rviz_config_path" default="/ros2_ws/src/machina_metrology_task/config/pcd_viewer.rviz"/>
+  <arg name="run_pcd_processing" default="true" description="Whether to run PCD filtering and alignment node"/>
+  <arg name="verbose" default="true" description="Enable verbose output"/>
+
+  <!-- TF static transform publisher for base reference frame -->
+  <node pkg="tf2_ros" exec="static_transform_publisher" name="base_reference_broadcaster"
+        args="0 0 0 0 0 0 world robot_base"/>
+
+  <!-- Hand-eye calibration node -->
+  <node pkg="machina_metrology_task" exec="hand_eye_calibration" name="hand_eye_calibration" output="screen">
+    <param name="data_dir" value="$(var calibration_data_dir)"/>
+    <param name="flange_poses_file" value="flange_poses.csv"/>
+    <param name="scanner_poses_file" value="scanner_poses.csv"/>
+    <param name="output_file_path" value="$(var output_file_path)/calibration_result.txt"/>
+    <param name="compute_on_startup" value="false"/>
+    <param name="publish_transforms" value="true"/>
+    <param name="verbose" value="$(var verbose)"/>
+  </node>
+
+  <!-- PCD Filter and Alignment Node -->
+  <node pkg="machina_metrology_task" exec="pcd_filter_align" name="pcd_filter_align" if="$(var run_pcd_processing)" output="screen">
+    <param name="input_dir" value="$(var pcd_data_dir)"/>
+    <param name="output_file_path" value="$(var output_file_path)"/>
+    <param name="leaf_size" value="0.01"/>
+    <param name="outlier_mean_k" value="50"/>
+    <param name="outlier_std_dev" value="1.0"/>
+    <param name="use_calibration" value="true"/>
+    <param name="use_icp" value="true"/>
+    <param name="max_icp_iterations" value="50"/>
+    <param name="icp_transform_epsilon" value="1e-6"/>
+    <param name="icp_fitness_epsilon" value="1e-6"/>
+    <param name="max_correspondence_distance" value="0.05"/>
+    <param name="publish_aligned_clouds" value="true"/>
+    <param name="verbose" value="$(var verbose)"/>
+  </node>
+
+  <!-- RViz for visualization -->
+  <node pkg="rviz2" exec="rviz2" name="rviz2" args="-d $(var rviz_config_path)" output="screen"/>
+</launch>
