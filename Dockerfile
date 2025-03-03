@@ -37,8 +37,8 @@ SHELL ["/bin/bash", "-c"]
 # Set working directory inside the container
 WORKDIR /ros2_ws
 
-# Copy the entire 'src' directory (which contains all ROS 2 packages)
-COPY . /ros2_ws/src/
+# Copy the machina_metrology_task package
+COPY ./machina_metrology_task /ros2_ws/src/machina_metrology_task/
 
 # Ensure the entrypoint script is executable
 RUN chmod +x /ros2_ws/src/machina_metrology_task/docker_entrypoint.bash
