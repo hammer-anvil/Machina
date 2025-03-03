@@ -10,8 +10,8 @@ This package is designed to run in a Docker environment with Ubuntu 24 and ROS 2
 
 ### Setup 
 
-Download and unzip the file under ths .../src directory of a workspace
-/../src/machina_metrology_task
+Download and unzip the file under the .../src directory of a workspace
+(i.e., /../src/machina_metrology_task)
 
 It's important that the above path(which is specified in Makefile) is maintained to properly locate the data file within the package.
 
