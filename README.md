@@ -8,13 +8,6 @@ A ROS 2 package for hand-eye calibration and 3D scanning, implementing:
 ## 1. Setup and Build
 This package is designed to run in a Docker environment with Ubuntu 24 and ROS 2 Jazzy.
 
-### Setup 
-
-Download and unzip the file under the .../src directory of a workspace
-(i.e., /../src/machina_metrology_task)
-
-It's important that the above path(which is specified in Makefile) is maintained to properly locate the data file within the package.
-
 ### Build the Docker Image
 
 To build the Docker image, run the following command in the directory containing the Makefile:
