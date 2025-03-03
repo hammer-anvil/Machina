@@ -6,10 +6,16 @@ A ROS 2 package for hand-eye calibration and 3D scanning, implementing:
  - Point cloud processing for noise filtering and alignment of overlapping scans.
 
 ## 1. Setup and Build
+This package is designed to run in a Docker environment with Ubuntu 24 and ROS 2 Jazzy.
+
+### Setup 
+
+Download and unzip the file under ths .../src directory of a workspace
+/../src/machina_metrology_task
+
+It's important that the above path(which is specified in Makefile) is maintained to properly locate the data file within the package.
 
 ### Build the Docker Image
-
-This package is designed to run in a Docker environment with Ubuntu 24 and ROS 2 Jazzy.
 
 To build the Docker image, run the following command in the directory containing the Makefile:
 
@@ -67,21 +73,6 @@ This service call initiates the filtering and alignment process of the raw point
 The processed point cloud data, aligned_scan.csv, will be saved in the output directory within the package for further use. 
 
 
-## 5. Data Generation
+## 5. Data
 
 Pre-generated data are available in the data directory within the package.
-
-### Calibration Data
-
-To generate flange and scanner poses:
-
-```bash
-ros2 run machina_metrology_task data_generator_calibration
-```
-### Point Cloud Data
-
-To generate two raw point cloud data:
-
-```bash
-ros2 run machina_metrology_task data_generator_pcd
-```
